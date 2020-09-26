@@ -2,16 +2,13 @@ package stats
 
 import "github.com/ilhom9045/bank/v2/pkg/types"
 
-func Avg(payments []types.Payment) types.Money {
-	money := types.Money(0)
-	count := types.Money(len(payments))
-
+func Avg(payments []types.Payment) (money types.Money) {
+	count := types.Money(0)
 	for _, value := range payments {
+		count++
 		money += value.Amount
 	}
-
-	money = money / count
-	return money
+	return money / count
 }
 
 func TotalInCategory(payments []types.Payment, category types.Category) types.Money {
