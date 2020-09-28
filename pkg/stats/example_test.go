@@ -8,33 +8,6 @@ import (
 	"github.com/ilhom9045/bank/v2/pkg/types"
 )
 
-func ExampleAvg() {
-	payments := []types.Payment{
-		{
-			ID:       1,
-			Amount:   53_00,
-			Category: "Cat",
-			Status:   types.StatusOk,
-		},
-		{
-			ID:       2,
-			Amount:   51_00,
-			Category: "Cat",
-			Status:   types.StatusOk,
-		},
-		{
-			ID:       3,
-			Amount:   52_00,
-			Category: "Cat",
-			Status:   types.StatusFail,
-		},
-	}
-
-	fmt.Println(Avg(payments))
-
-	//Output: 5200
-}
-
 func TestCategoriesAvgUser(t *testing.T) {
 	payments := []types.Payment{
 		{ID: 1, Category: "auto", Amount: 1_000_00},
@@ -50,6 +23,28 @@ func TestCategoriesAvgUser(t *testing.T) {
 	}
 
 	result := CategoriesAvg(payments)
+	if !reflect.DeepEqual(expected, result) {
+		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
+	}
+}
+
+func TestPeriodsDynamicUser(t *testing.T) {
+	first := map[types.Category]types.Money{
+		"auto": 1_000_00,
+		"food": 2_000_00,
+	}
+	second := map[types.Category]types.Money{
+		"auto": 2_000_00,
+		"food": 3_000_00,
+		"m":    1_000_00,
+	}
+	expected := map[types.Category]types.Money{
+		"auto": 1_000_00,
+		"food": 1_000_00,
+		"m":    1_000_00,
+	}
+
+	result := PeriodsDynamic(first, second)
 	if !reflect.DeepEqual(expected, result) {
 		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
 	}
