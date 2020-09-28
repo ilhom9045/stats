@@ -1,7 +1,6 @@
 package stats
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 
